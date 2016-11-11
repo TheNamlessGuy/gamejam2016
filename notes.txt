@@ -1,0 +1,24 @@
+- Hemlig agent anka
+- Platformspel
+- Sugproppar
+- Pengar ska vi ha, pengar ska vi undvika
+- Medans man slår på pengar, får man även pengar
+- 
+
+
+
+BACKSTORY:
+
+Anka e på semester. Ska precis ta av sig kläder, lämnar plånbok, plånbok explorderar, alla sprids ut, en e kvar, slår till anka och springer iväg. 
+
+
+
+STRUKTUR:
+- player class
+- platform class
+- enemy class
+- map class (contains platforms)
+- suctioncup (sugpropp på englishka)
+- inventory class
+- cutscene class
+- mainmenu class
