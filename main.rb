@@ -1,6 +1,9 @@
 require 'gosu'
+require './player.rb'
 
 class GameWindow < Gosu::Window
+  Player p = Player.new
+
   def initialize
     super 640, 480
     self.caption = "TEST"
