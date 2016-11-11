@@ -2,7 +2,7 @@ class Player
   def initialize(x, y)
     @x = x
     @y = y
-    @xVel = 0.1
+    @xVel = 1
     @yVel = 0
 
     @ir = :e
@@ -53,9 +53,8 @@ class Player
     end
     if Gosu::button_down? Gosu::KbZ and not @jumping then
       # Jump
-      puts "jump"
       @jumping = true
-      @yVel = -5
+      @yVel = -2
     end
 
     @yVel += 0.1
