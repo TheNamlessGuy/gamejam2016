@@ -34,7 +34,7 @@ class Map
     x2 = hitbox[0]+hitbox[2]-camx
     y1 = hitbox[1]-camy
     y2 = hitbox[1]+hitbox[3]-camy
-    Gosu::draw_quad(x1, y1, color, x2, y1, color, x2, y2, color, x1, y2, color)
+    Gosu::draw_quad(x1, y1, color, x2, y1, color, x2, y2, color, x1, y2, color, 0)
   end
 
   def draw (cx, cy)

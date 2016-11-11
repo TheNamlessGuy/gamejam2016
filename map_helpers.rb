@@ -1,13 +1,15 @@
 require "gosu"
 
+require "./hitbox.rb"
+
 class MapHitBox
   def initialize (x, y, w, h)
-    @box = [x, y, w, h]
+    @box = HitBox.new(x, y, w, h)
     @type = :SOLID
   end
 
   def gethitbox
-    return @box
+    return @box.get
   end
 
   def gettype
@@ -17,12 +19,12 @@ end
 
 class MapGround
   def initialize (x1, x2, type)
-    @ground = [x1, 500, x2 - x1, 600]
+    @ground = HitBox.new(x1, 500, x2 - x1, 600)
     @type = type
   end
 
   def gethitbox
-    return @ground
+    return @ground.get
   end
 
   def gettype
