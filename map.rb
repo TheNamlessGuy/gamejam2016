@@ -50,18 +50,18 @@ class Map
     return false
   end
 
-  def drawhitbox (hitbox, camx, camy, type, gosuinstance)
+  def drawhitbox (hitbox, camx, camy, type)
     color = Gosu::Color.new(0xffffffff)
     x1 = hitbox[0]-camx
     x2 = hitbox[0]+hitbox[2]-camx
     y1 = hitbox[1]-camy
     y2 = hitbox[1]+hitbox[3]-camy
-    gosuinstance.draw_quad(x1, y1, color, x2, y1, color, x2, y2, color, x1, y2, color)
+    Gosu::draw_quad(x1, y1, color, x2, y1, color, x2, y2, color, x1, y2, color)
   end
 
-  def draw (cx, cy, gosuinstance)
+  def draw (cx, cy)
     @map.each do |hbox|
-      drawhitbox(hbox.gethitbox, cx, cy, hbox.gettype, gosuinstance)
+      drawhitbox(hbox.gethitbox, cx, cy, hbox.gettype)
     end
   end
 end
