@@ -2,6 +2,7 @@ class Player
   def initialize(x, y)
     @x = x
     @y = y
+    @@image = Gosu::Image.new("res/player.png")
   end
 
   def update
@@ -27,6 +28,6 @@ class Player
   end
 
   def draw
-
+    @@image.draw(@x, @y, 0)
   end
 end
