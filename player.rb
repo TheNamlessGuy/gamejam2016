@@ -26,6 +26,14 @@ class Player
                 Gosu::Image.new("res/player_move_w_2.png")]
     @@move_e = [Gosu::Image.new("res/player_move_e_1.png"),
                 Gosu::Image.new("res/player_move_e_2.png")]
+    @@gliding_w = [Gosu::Image.new("res/player_glide_w_1.png"),
+                   Gosu::Image.new("res/player_glide_w_2.png")]
+    @@gliding_e = [Gosu::Image.new("res/player_glide_e_1.png"),
+                   Gosu::Image.new("res/player_glide_e_2.png")]
+    @@fall_w = [Gosu::Image.new("res/player_fall_w_1.png")]
+    @@fall_e = [Gosu::Image.new("res/player_fall_e_1.png")]
+    @@jump_w = [Gosu::Image.new("res/player_fall_w_1.png")]
+    @@jump_e = [Gosu::Image.new("res/player_fall_e_1.png")]
 
     @@gun_e = Gosu::Image.new("res/gun_e.png")
     @@gun_w = Gosu::Image.new("res/gun_w.png")
@@ -40,6 +48,7 @@ class Player
     @aimdir = @dir
     @animationCooldown -= delta
     shot = false
+    moved = false
     
     # Movement
     if Gosu::button_down? Gosu::KbRight
@@ -49,10 +58,8 @@ class Player
       @dir = :e
       @aimdir = @dir
       
-      if @toDraw != @@move_e
-        changeAnim(@@move_e)
-        @gun = @@gun_e
-      end
+      moved = true
+      @gun = @@gun_e
     elsif Gosu::button_down? Gosu::KbLeft
       # Move left
       @xSpeed = -@xVel
@@ -60,17 +67,8 @@ class Player
       @dir = :w
       @aimdir = @dir
       
-      if @toDraw != @@move_w
-        changeAnim(@@move_w)
-        @gun = @@gun_w
-      end
-    else
-      # Not moving
-      if @dir == :w and @toDraw != @@idle_w
-        changeAnim(@@idle_w)
-      elsif @dir == :e and @toDraw != @@idle_e
-        changeAnim(@@idle_e)
-      end
+      moved = true
+      @gun = @@gun_w
     end
 
     # Aiming
@@ -90,13 +88,14 @@ class Player
     # Shoot
     if Gosu::button_down? Gosu::KbX and @shootCooldown <= 0 and @aimdir != :none
       shot = true
-      #
       @shootCooldown = 250
     end
     # Jump
+    gliding = false
     if Gosu::button_down? Gosu::KbZ
       if @jumping and @yVel > 0.3
         # Float
+        gliding = true
         @yVel = 0.3
       elsif not @jumping
         # Start jumping
@@ -113,6 +112,41 @@ class Player
     @hitbox.get[1] += @yVel * delta
     if @hitbox.get[1] > 800
       @dead = true
+    end
+
+    # Set animation
+    if @yVel > 0 and @jumping
+      if gliding
+        if @dir == :e and @toDraw != @@gliding_e
+          changeAnim(@@gliding_e)
+        elsif @dir == :w and @toDraw != @@gliding_w
+          changeAnim(@@gliding_w)
+        end
+      else
+        if @dir == :e and @toDraw != @@fall_e
+          changeAnim(@@fall_e)
+        elsif @dir == :w and @toDraw != @@fall_w
+          changeAnim(@@fall_w)
+        end
+      end
+    elsif @yVel < 0
+      if @dir == :w and @toDraw != @@jump_w
+        changeAnim(@@jump_w)
+      elsif @dir == :e and @toDraw != @@jump_e
+        changeAnim(@@jump_e)
+      end
+    elsif @dir == :w
+      if moved and @toDraw != @@move_w
+        changeAnim(@@move_w)
+      elsif not moved and @toDraw != @@idle_w
+        changeAnim(@@idle_w)
+      end
+    elsif @dir == :e
+      if moved and @toDraw != @@move_e
+        changeAnim(@@move_e)
+      elsif not moved and @toDraw != @@idle_e
+        changeAnim(@@idle_e)
+      end
     end
 
     # Change animation frame

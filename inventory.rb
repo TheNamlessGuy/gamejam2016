@@ -3,7 +3,7 @@ class Inventory
 
   def initialize(window)
     @money = 0
-    @bulletcount = 20
+    @bulletcount = 9999999999999999
 
     @font = Gosu::Font.new(window, './ARCADECLASSIC.TTF', 50)
 
