@@ -2,7 +2,7 @@ require './hitbox.rb'
 require './bullets.rb'
 
 class Player
-  attr_accessor :hitbox, :xSpeed, :jumping, :yVel
+  attr_accessor :hitbox, :xSpeed, :jumping, :yVel, :dead
   
   def initialize(x, y)
     @hitbox = HitBox.new(x, y, 64, 64)
@@ -30,6 +30,8 @@ class Player
 
     @toDraw = @@move_e
     @gun = @@gun_e
+
+    @dead = false
   end
 
   def update(bullets, delta)
@@ -107,11 +109,9 @@ class Player
     # Move in Y
     @yVel += 0.1
     @hitbox.get[1] += @yVel * delta
-    #if (@hitbox.get[1] >= 435)
-    #  @jumping = false
-    #  @hitbox.get[1] = 435
-    #  @yVel = 0
-    #end
+    if @hitbox.get[1] > 800
+      @dead = true
+    end
 
     # Change animation frame
     if @animationCooldown <= 0

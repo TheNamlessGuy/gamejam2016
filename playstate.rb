@@ -11,6 +11,12 @@ class PlayState
 
   def update(delta)
     @player.update(@bullets, delta)
+    if @player.dead
+      puts "u ded sonny"
+      @player.hitbox.get[0] = 100
+      @player.hitbox.get[1] = 400
+      @player.dead = false
+    end
     @bullets.each do |bullet|
       bullet.update(delta)
       if bullet.isGone
