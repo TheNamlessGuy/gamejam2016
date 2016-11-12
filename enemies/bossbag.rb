@@ -8,7 +8,7 @@ class BossBag
   end
 
   def update(delta)
-
+    
   end
 
   def draw

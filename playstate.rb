@@ -1,6 +1,7 @@
 require './player.rb'
 require './map.rb'
 require './enemies/moneygolem.rb'
+require './enemies/billbird.rb'
 require './hitbox.rb'
 require './inventory.rb'
 
@@ -17,6 +18,7 @@ class PlayState
     @enemies = []
     #@enemies = @map.getobjectlist
     @enemies.push(MoneyGolem.new(500, 435, :e, 200))
+    @enemies.push(BillBird.new(500, 300, :e, 50))
     
     @money = []
 

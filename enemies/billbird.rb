@@ -1,32 +1,73 @@
-require '../hitbox.rb'
+require './hitbox.rb'
+require './coin.rb'
 
 class BillBird
   attr_accessor :hitbox
-  
-  def initialize(x, y)
-    @hitbox = HitBox.new(x, y, 25, 25)
+
+  def initialize(x, y, dir, distance)
+    @hitbox = HitBox.new(x, y, 64, 64)
+    @dir = dir
+    @distance = distance
+    @distRemaining = distance
+    @speed = 0.1
+    @diving = false
     
+    @@move_e = [Gosu::Image.new("res/billbird_w_1.png"),
+                Gosu::Image.new("res/billbird_w_2.png")]
     @@move_w = [Gosu::Image.new("res/billbird_w_1.png"),
                 Gosu::Image.new("res/billbird_w_2.png")]
-
-    @animationIndex = 0
+    
     @animationCooldown = 250
-    @toDraw = @@move_w
+    @animationIndex = 0
 
-    @@speed = 0.75
+    if @dir == :e
+      @toDraw = @@move_e
+    else
+      @toDraw = @@move_w
+    end
   end
 
   def update(delta)
-    @animationCooldown -= delta
-    if @animationCooldown <= 0
-      @animationCooldown = 250
-      @animationIndex = (@animationIndex + 1) % @toDraw
+    oldX = @hitbox.get[0]
+
+    if @dir == :e
+      @hitbox.get[0] += @speed * delta
+      if @toDraw != @@move_e
+        changeAnim(@@move_e)
+      end
+    else
+      @hitbox.get[0] -= @speed * delta
+      if @toDraw != @@move_w
+        changeAnim(@@move_w)
+      end
+    end
+    
+    @hitbox.get[1] = Math.sin(Gosu::milliseconds / 200.0) * 50
+
+    @distRemaining -= (oldX - @hitbox.get[0]).abs
+    if @distRemaining <= 0
+      @dir = (@dir == :e ? :w : :e)
+      @distRemaining = @distance
     end
 
-    @hitbox.get[0] += @@speed * delta
+    @animationCooldown -= delta
+    if @animationCooldown <= 0
+      @animationIndex = (@animationIndex + 1) % @toDraw.count
+      @animationCooldown = 250
+    end
   end
-
+  
   def draw(camX)
     @toDraw[@animationIndex].draw(@hitbox.get[0] - camX, @hitbox.get[1], 1)
+  end
+
+  def changeAnim(newAnim)
+    @toDraw = newAnim
+    @animationIndex = 0
+    @animationCooldown = 250
+  end
+
+  def onDeath(money)
+    money.push(Coin.new(@hitbox.get[0], @hitbox.get[1] + 40))
   end
 end
