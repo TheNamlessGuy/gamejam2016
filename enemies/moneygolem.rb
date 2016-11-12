@@ -4,7 +4,7 @@ class MoneyGolem
   attr_accessor :hitbox
 
   def initialize(x, y, dir, distance)
-    @hitbox = HitBox.new(x, y, 25, 25)
+    @hitbox = HitBox.new(x, y, 64, 64)
     @dir = dir
     @distance = distance
     @distRemaining = distance

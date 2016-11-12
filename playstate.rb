@@ -75,11 +75,14 @@ class PlayState
     
     @enemies.each do |enemy|
       @bullets.each do |bullet|
-        puts hitboxcollisioncheck(bullet.hitbox, enemy.hitbox).collided
         if hitboxcollisioncheck(bullet.hitbox, enemy.hitbox).collided
           @enemies.delete(enemy)
           @bullets.delete(bullet)
         end
+      end
+      
+      if hitboxcollisioncheck(enemy.hitbox, @player.hitbox).collided
+        @player.dead = true
       end
     end
   end
