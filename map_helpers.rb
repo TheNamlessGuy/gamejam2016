@@ -3,9 +3,9 @@ require "gosu"
 require "./hitbox.rb"
 
 class MapHitBox
-  def initialize (x, y, w, h)
+  def initialize (x, y, w, h, type)
     @box = HitBox.new(x, y, w, h)
-    @type = :SOLID
+    @type = type
   end
 
   def gethitbox

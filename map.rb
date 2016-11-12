@@ -1,6 +1,7 @@
 require "gosu"
 
 require "./map_helpers.rb"
+require "./hitbox.rb"
 
 class Map
 
@@ -16,12 +17,29 @@ class Map
   def loadmap (mapname)
     @map = []
     #TODO: Different types of maps
-    @map.push(MapGround.new(0, 200, :WATER), MapGround.new(200, 800, :GROUND_SAND))
+    #@map.push(MapGround.new(0, 200, :WATER), MapGround.new(200, 800, :GROUND_SAND))
+    mapfile = File.read("maps/" + mapname)
+    eval mapfile
   end
+
+  # MAP LOADING DSL
+  # ----------------------------------
+  def create_mapbox (x, y, w, h, type)
+    @map.push(MapHitBox.new(x, y, w, h, type))
+  end
+
+  def create_ground (x1, x2, type)
+    @map.push(MapGround.new(x1, x2, type))
+  end
+
+  def set_theme (theme)
+    #INGENTING
+  end
+  # ----------------------------------
 
   def collisioncheck (collisionbox)
     @map.each do |hitbox|
-      if collisionbox[0]+collisionbox[2]>=hitbox[0] and collisionbox[0]<=hitbox[0]+hitbox[2] and collisionbox[1]+collisionbox[3]>=hitbox[1] and collisionbox[1]<=hitbox[1]+hitbox[3]
+      if collisioncheck(collisionbox, hitbox)#collisionbox[0]+collisionbox[2]>=hitbox[0] and collisionbox[0]<=hitbox[0]+hitbox[2] and collisionbox[1]+collisionbox[3]>=hitbox[1] and collisionbox[1]<=hitbox[1]+hitbox[3]
         return true
       end
     end
