@@ -17,6 +17,7 @@ class PlayState
         @bullets.delete(bullet)
       end
     end
+    handlecollisions
   end
 
   def draw
@@ -26,4 +27,23 @@ class PlayState
     end
     @player.draw
   end
+
+  #PRIVATE (SORTA)
+  
+  def handlecollisions
+    info = @map.collisioncheck(@player.hitbox)
+    if info
+      case info.direction
+      when :RIGHT
+        @player.hitbox.set(0, info.x - @player.hitbox.get[2])
+      when :LEFT
+        @player.hitbox.set(0, info.x)
+      when :UP
+        @player.hitbox.set(1, info.y)
+      when :DOWN
+        @player.hitbox.set(1, info.y - @player.hitbox.get[3])
+      end
+    end
+  end
+  
 end

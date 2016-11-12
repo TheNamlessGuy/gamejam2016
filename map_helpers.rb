@@ -18,6 +18,10 @@ class MapHitBox
     @type = type
   end
 
+  def get
+    return @box
+  end
+
   def gethitbox
     return @box.get
   end
@@ -35,6 +39,10 @@ class MapGround
   def initialize (x1, x2, type)
     @ground = HitBox.new(x1, 500, x2 - x1, 600)
     @type = type
+  end
+
+  def get
+    return @ground
   end
 
   def gethitbox

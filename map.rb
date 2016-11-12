@@ -47,11 +47,12 @@ class Map
 
   def collisioncheck (collisionbox)
     @map.each do |hitbox|
-      if collisioncheck(collisionbox, hitbox)
-        return true
+      info = hitboxcollisioncheck(collisionbox, hitbox.get)
+      if info.collided
+        return info
       end
     end
-    return false
+    return nil
   end
 
   def getobjectlist 
