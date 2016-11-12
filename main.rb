@@ -12,7 +12,6 @@ class GameWindow < Gosu::Window
     @lastFrameTime = 0
     
     @currentState = 0
-
     #hehehe
     font = Gosu::Font.new self, "./ARCADECLASSIC.TTF", 50
     cutscene1 = Cutscene.new([Scene.new(Gosu::Image.new("res/cutscene_intro_1.png"), font, ["dukke   is   on   airplane", "to   bahamas"]),
@@ -23,7 +22,7 @@ class GameWindow < Gosu::Window
                               Scene.new(nil, font, ["", "war", "war   never   changes", ""])])
     #hehehe
 
-    @states = [MainMenu.new(self), cutscene1, PlayState.new]
+    @states = [MainMenu.new(self), cutscene1, PlayState.new(self)]
   end
 
   def update
