@@ -19,13 +19,13 @@ def hitboxcollisioncheck(hbox1, hbox2)
     down = (b1[1]+b1[3]-b2[1]).abs
     up = (b1[1]-(b2[1]+b2[3])).abs
     if right <= left and right <= down and right <= up
-      return CollisionInfo.new(true, :RIGHT, b2[0], 0)
+      return CollisionInfo.new(true, :e, b2[0], 0)
     elsif left <= right and left <= down and left <= up 
-      return CollisionInfo.new(true, :LEFT, b2[0]+b2[2], 0)
+      return CollisionInfo.new(true, :w, b2[0]+b2[2], 0)
     elsif up <= left and up <= right and up <= down
-      return CollisionInfo.new(true, :UP, 0, b2[1]+b2[3])
+      return CollisionInfo.new(true, :n, 0, b2[1]+b2[3])
     elsif down <= left and down <= right and down <= up
-      return CollisionInfo.new(true, :DOWN, 0, b2[1])
+      return CollisionInfo.new(true, :s, 0, b2[1])
     end
   end
   return CollisionInfo.new(false, nil, 0, 0)

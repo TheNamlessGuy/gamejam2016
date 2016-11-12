@@ -2,12 +2,13 @@ require './hitbox.rb'
 require './bullets.rb'
 
 class Player
-  attr_accessor :hitbox, :xVel, :yVel
+  attr_accessor :hitbox, :xSpeed, :jumping, :yVel
   
   def initialize(x, y)
     @hitbox = HitBox.new(x, y, 64, 64)
     @xVel = 0.75
     @yVel = 0
+    @xSpeed = 0
 
     @dir = :e
     @aimdir = :none
@@ -38,7 +39,8 @@ class Player
     # Movement
     if Gosu::button_down? Gosu::KbRight
       # Move right
-      @hitbox.get[0] += @xVel * delta
+      @xSpeed = @xVel
+      @hitbox.get[0] += @xSpeed * delta
       @dir = :e
       @aimdir = @dir
       
@@ -48,7 +50,8 @@ class Player
       end
     elsif Gosu::button_down? Gosu::KbLeft
       # Move left
-      @hitbox.get[0] -= @xVel * delta
+      @xSpeed = -@xVel
+      @hitbox.get[0] += @xSpeed * delta
       @dir = :w
       @aimdir = @dir
       
@@ -104,11 +107,11 @@ class Player
     # Move in Y
     @yVel += 0.1
     @hitbox.get[1] += @yVel * delta
-    if (@hitbox.get[1] >= 435)
-      @jumping = false
-      @hitbox.get[1] = 435
-      @yVel = 0
-    end
+    #if (@hitbox.get[1] >= 435)
+    #  @jumping = false
+    #  @hitbox.get[1] = 435
+    #  @yVel = 0
+    #end
 
     # Change animation frame
     if @animationCooldown <= 0

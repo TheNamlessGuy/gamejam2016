@@ -34,15 +34,22 @@ class PlayState
     info = @map.collisioncheck(@player.hitbox)
     if info
       case info.direction
-      when :RIGHT
+      when :e
         @player.hitbox.set(0, info.x - @player.hitbox.get[2])
-      when :LEFT
+        @player.xSpeed = 0
+      when :w
         @player.hitbox.set(0, info.x)
-      when :UP
+        @player.xSpeed = 0
+      when :n
         @player.hitbox.set(1, info.y)
-      when :DOWN
+        @player.yVel = 0
+      when :s
         @player.hitbox.set(1, info.y - @player.hitbox.get[3])
+        @player.yVel = 0
+        @player.jumping = false
       end
+    else
+      @player.jumping = true
     end
   end
   
