@@ -50,6 +50,10 @@ class PlayState
       enemy.update(delta)
     end
     
+    @money.each do |moni|
+      moni.update(delta)
+    end
+    
     handlecollisions
   end
 
