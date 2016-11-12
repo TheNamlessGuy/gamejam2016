@@ -19,6 +19,7 @@ class MainMenu
     @large_font = Gosu::Font.new window, "./ARCADECLASSIC.TTF", 100
 
     @image = Gosu::Image.new("res/menu_duck.png")
+    @back_image = Gosu::Image.new("res/back_beach.png")
   end
 
   def update(delta_time)
@@ -61,6 +62,8 @@ class MainMenu
   end
 
   def draw
+    @back_image.draw 0, 0, 0
+
     @font.draw @title.first, 250, 50, 1, 1, 1, Gosu::Color::WHITE
     @large_font.draw @title.last, 275, 100, 1, 1, 1, @colors[@current_color]
 
