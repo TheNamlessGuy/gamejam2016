@@ -4,7 +4,7 @@ require './playstate.rb'
 class GameWindow < Gosu::Window
   def initialize
     super 800, 600
-    self.caption = ""
+    self.caption = "Capitalism Ruined My Vacation!"
     @lastFrameTime = 0
     
     @currentState = 0
