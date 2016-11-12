@@ -1,4 +1,5 @@
 require 'gosu'
+require './main_menu.rb'
 require './playstate.rb'
 
 class GameWindow < Gosu::Window
@@ -8,7 +9,7 @@ class GameWindow < Gosu::Window
     @lastFrameTime = 0
     
     @currentState = 0
-    @states = [PlayState.new]
+    @states = [MainMenu.new(self), PlayState.new]
   end
 
   def update
@@ -16,7 +17,12 @@ class GameWindow < Gosu::Window
     delta = ms - @lastFrameTime
     @lastFrameTime = ms
     
-    @states[@currentState].update(delta)
+    event = @states[@currentState].update(delta)
+    if event == :play
+      @currentState += 1
+    elsif event == :quit
+      close
+    end
   end
 
   def draw
