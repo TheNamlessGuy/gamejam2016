@@ -86,7 +86,7 @@ class Player
 
     # Shoot
     if Gosu::button_down? Gosu::KbX and @shootCooldown <= 0 and @aimdir != :none
-      bullets.push(Bullet.new(400, @hitbox.get[1] + 32, @aimdir))
+      bullets.push(Bullet.new(@hitbox.get[0] + 32, @hitbox.get[1] + 32, @aimdir))
       @shootCooldown = 250
     end
     # Jump

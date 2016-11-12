@@ -3,6 +3,9 @@ require './map.rb'
 require './enemies/moneygolem.rb'
 require './hitbox.rb'
 
+# TODO: Fucking remove this what are you doing stop
+require './gosu_facade.rb'
+
 class PlayState
   def initialize
     @player = Player.new(368, 400)
@@ -13,6 +16,8 @@ class PlayState
     @enemies = []
     #@enemies = @map.getobjectlist
     @enemies.push(MoneyGolem.new(500, 435, :e, 200))
+    
+    @money = []
   end
 
   def update(delta)
@@ -26,9 +31,6 @@ class PlayState
     
     @bullets.each do |bullet|
       bullet.update(delta)
-      if bullet.isGone
-        @bullets.delete(bullet)
-      end
     end
     
     @enemies.each do |enemy|
@@ -41,7 +43,7 @@ class PlayState
   def draw
     @map.draw(@player.hitbox.get[0] - 368, 0)
     @bullets.each do |bullet|
-      bullet.draw
+      bullet.draw(@player.hitbox.get[0] - 368)
     end
     @enemies.each do |enemy|
       enemy.draw(@player.hitbox.get[0] - 368)
@@ -73,9 +75,11 @@ class PlayState
       @player.jumping = true
     end
     
+    # Enemy hit by bullet / player in contact
     @enemies.each do |enemy|
       @bullets.each do |bullet|
         if hitboxcollisioncheck(bullet.hitbox, enemy.hitbox).collided
+          enemy.onDeath(@money)
           @enemies.delete(enemy)
           @bullets.delete(bullet)
         end
@@ -83,6 +87,17 @@ class PlayState
       
       if hitboxcollisioncheck(enemy.hitbox, @player.hitbox).collided
         @player.dead = true
+      end
+    end
+   
+    # Bullet hit ground or off screen
+    @bullets.each do |bullet|
+      info = @map.collisioncheck(bullet.hitbox)
+      if not info.nil? and info.collided
+        @bullets.delete(bullet)
+      elsif bullet.hitbox.get[1] <= 0 or bullet.hitbox.get[1] >= 600 or
+          bullet.hitbox.get[0] >= 800 or bullet.hitbox.get[0] <= 0
+        @bullets.delete(bullet)
       end
     end
   end

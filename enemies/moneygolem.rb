@@ -62,4 +62,8 @@ class MoneyGolem
     @animationIndex = 0
     @animationCooldown = 250
   end
+
+  def onDeath(money)
+
+  end
 end
