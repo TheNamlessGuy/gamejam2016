@@ -18,12 +18,13 @@ class MainMenu
     @font = Gosu::Font.new window, "./ARCADECLASSIC.TTF", 50
     @large_font = Gosu::Font.new window, "./ARCADECLASSIC.TTF", 100
 
-    @image = Gosu::Image.new("res/player_move_w_1.png")
+    @image = Gosu::Image.new("res/menu_duck.png")
   end
 
   def update(delta_time)
     if Gosu::button_down? Gosu::KbUp
       if @delay <= 0
+
         if @choice != 0
           @choice -= 1
         else
@@ -31,10 +32,12 @@ class MainMenu
         end
         
         @delay = 180
+      else
+        @delay -= delta_time
       end
-      @delay -= delta_time
     elsif Gosu::button_down? Gosu::KbDown
       if @delay <= 0
+
         if @choice < @alternatives.length - 1
           @choice += 1
         else
@@ -42,8 +45,9 @@ class MainMenu
         end
 
         @delay = 180
+      else
+        @delay -= delta_time
       end
-      @delay -= delta_time
     elsif Gosu::button_down? Gosu::KbReturn
       case @choice
       when 0
