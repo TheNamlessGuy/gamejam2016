@@ -7,13 +7,12 @@ class MainMenu
     @delay = 0
 
     @current_color = 0
-    @colors = [Gosu::Color::AQUA,
-               Gosu::Color::RED,
-               Gosu::Color::GREEN,
-               Gosu::Color::BLUE,
-               Gosu::Color::YELLOW,
-               Gosu::Color::FUCHSIA,
-               Gosu::Color::CYAN]
+    @colors = [Gosu::Color.new(0xff00afdf),#::AQUA,
+               Gosu::Color.new(0xffdf0000),#::RED,
+               Gosu::Color.new(0xff00df00),#::GREEN,
+               Gosu::Color.new(0xff0000df),#::BLUE,
+               Gosu::Color.new(0xffdfdf00),#::YELLOW,
+               Gosu::Color.new(0xffdf00df)]
 
     @font = Gosu::Font.new window, "./ARCADECLASSIC.TTF", 50
     @large_font = Gosu::Font.new window, "./ARCADECLASSIC.TTF", 100
