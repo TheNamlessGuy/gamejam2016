@@ -73,21 +73,23 @@ class PlayState
   
   def handlecollisions
     info = @map.collisioncheck(@player.hitbox)
-    if info
-      case info.direction
-      when :e
-        @player.hitbox.set(0, info.x - @player.hitbox.get[2])
-        @player.xSpeed = 0
-      when :w
-        @player.hitbox.set(0, info.x)
-        @player.xSpeed = 0
-      when :n
-        @player.hitbox.set(1, info.y)
-        @player.yVel = 0
-      when :s
-        @player.hitbox.set(1, info.y - @player.hitbox.get[3])
-        @player.yVel = 0
-        @player.jumping = false
+    if info.length > 0
+      info.each do |i|
+        case i.direction
+        when :e
+          @player.hitbox.set(0, i.x - @player.hitbox.get[2])
+          @player.xSpeed = 0
+        when :w
+          @player.hitbox.set(0, i.x)
+          @player.xSpeed = 0
+        when :n
+          @player.hitbox.set(1, i.y)
+          @player.yVel = 0
+        when :s
+          @player.hitbox.set(1, i.y - @player.hitbox.get[3])
+          @player.yVel = 0
+          @player.jumping = false
+        end
       end
     else
       @player.jumping = true
@@ -109,17 +111,20 @@ class PlayState
     end
    
     # Bullet hit ground or off screen
+
     @bullets.each do |bullet|
       info = @map.collisioncheck(bullet.hitbox)
-      if not info.nil? and info.collided
-        @bullets.delete(bullet)
-      elsif bullet.hitbox.get[1] <= 0 or bullet.hitbox.get[1] >= 600 or
-          bullet.hitbox.get[0] >= 800 + @player.hitbox.get[0] - 368 or
-          bullet.hitbox.get[0] <= 0 + @player.hitbox.get[0] - 368
-        @bullets.delete(bullet)
+      info.each do |i|
+        if i.collided
+          @bullets.delete(bullet)
+        elsif bullet.hitbox.get[1] <= 0 or bullet.hitbox.get[1] >= 600 or
+            bullet.hitbox.get[0] >= 800 + @player.hitbox.get[0] - 368 or
+            bullet.hitbox.get[0] <= 0 + @player.hitbox.get[0] - 368
+          @bullets.delete(bullet)
+        end
       end
     end
-    
+
     # Player picking up money
     @money.each do |cash|
       if hitboxcollisioncheck(cash.hitbox, @player.hitbox).collided

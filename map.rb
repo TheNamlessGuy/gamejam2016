@@ -17,7 +17,7 @@ class Map
     @objects = []
     @bg = Gosu::Image.new("res/back_beach.png")
     @fg = Gosu::Image.new("res/front_beach.png")
-    @width = -1
+    @width = 0
   end
 
   def loadmap (mapname)
@@ -26,7 +26,7 @@ class Map
     #TODO: Different types of maps
     mapfile = File.read("maps/" + mapname)
     eval mapfile
-    @map.push(MapGround.new(-10000, 10000, :GROUND))
+    @map.push(MapGround.new(0, @width, :GROUND))
   end
 
   # MAP LOADING DSL
@@ -49,18 +49,24 @@ class Map
   end
 
   def set_width (w)
-    @width = w - 800
+    @width = w
   end
   # ----------------------------------
 
   def collisioncheck (collisionbox)
+    collisionlist = []
     @map.each do |hitbox|
       info = hitboxcollisioncheck(collisionbox, hitbox.get)
       if info.collided
-        return info
+        collisionlist.push(info)
       end
     end
-    return nil
+    if collisionbox.get[0] <= 0
+      collisionlist.push(CollisionInfo.new(true, :w, 0, 0))
+    elsif collisionbox.get[0]+collisionbox.get[2] >= @width
+      collisionlist.push(CollisionInfo.new(true, :e, @width, 0))
+    end
+    return collisionlist
   end
 
   def getobjectlist 
