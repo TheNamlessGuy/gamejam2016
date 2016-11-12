@@ -1,4 +1,5 @@
 require './hitbox.rb'
+require './bullets.rb'
 
 class Player
   attr_accessor :hitbox
@@ -8,8 +9,9 @@ class Player
     @xVel = 0.75
     @yVel = 0
 
-    @ir = :e
+    @dir = :e
     @aimdir = :none
+    @shootCooldown = 250
     
     @jumping = false
 
@@ -50,30 +52,21 @@ class Player
     end
 
     # Aiming
-    if Gosu::button_down? Gosu::KbDown
+    if Gosu::button_down? Gosu::KbDown and @jumping
       # Aim down
-      if Gosu::button_down? Gosu::KbRight
-        @aimdir = :se
-      elsif Gosu::button_down? Gosu::KbLeft
-        @aimdir = :sw
-      else
-        @aimdir = :s
-      end
+      @aimdir = :s
     end
     if Gosu::button_down? Gosu::KbUp
       # Aim up
-      if Gosu::button_down? Gosu::KbRight
-        @aimdir = :ne
-      elsif Gosu::button_down? Gosu::KbLeft
-        @aimdir = :nw
-      else
-        @aimdir = :n
-      end
+      @aimdir = :n
     end
 
     # Shoot
-    if Gosu::button_down? Gosu::KbX
-      puts "shoot in direction: #{@aimdir.to_s}"
+    if Gosu::button_down? Gosu::KbX and @shootCooldown <= 0
+      bullets.push(Bullet.new(@hitbox.get[0] + (@hitbox.get[2] / 2.0),
+                              @hitbox.get[1] + (@hitbox.get[3] / 2.0),
+                              @aimdir))
+      @shootCooldown = 250
     end
     # Jump
     if Gosu::button_down? Gosu::KbZ
@@ -86,6 +79,9 @@ class Player
         @yVel = -2
       end
     end
+
+    # Shoot cooldown
+    @shootCooldown -= delta
 
     # Move in Y
     @yVel += 0.1
