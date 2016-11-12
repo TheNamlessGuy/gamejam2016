@@ -11,7 +11,7 @@ require './gosu_facade.rb'
 
 class PlayState
   def initialize(window)
-    @player = Player.new(368, 400)
+    @player = Player.new(32, 400)
     @bullets = []
     @map = Map.new
     @map.loadmap("de_dust2.rb")

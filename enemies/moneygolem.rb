@@ -65,6 +65,6 @@ class MoneyGolem
   end
 
   def onDeath(money)
-    money.push(Coin.new(@hitbox.get[0], @hitbox.get[1] + 40))
+    money.push(Coin.new(@hitbox.get[0] + 32, @hitbox.get[1] + 32))
   end
 end
