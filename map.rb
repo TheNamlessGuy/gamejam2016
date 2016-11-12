@@ -21,7 +21,6 @@ class Map
     @map = []
     @objects = []
     #TODO: Different types of maps
-    #@map.push(MapGround.new(0, 200, :WATER), MapGround.new(200, 800, :GROUND_SAND))
     mapfile = File.read("maps/" + mapname)
     eval mapfile
   end
@@ -48,7 +47,7 @@ class Map
 
   def collisioncheck (collisionbox)
     @map.each do |hitbox|
-      if collisioncheck(collisionbox, hitbox)#collisionbox[0]+collisionbox[2]>=hitbox[0] and collisionbox[0]<=hitbox[0]+hitbox[2] and collisionbox[1]+collisionbox[3]>=hitbox[1] and collisionbox[1]<=hitbox[1]+hitbox[3]
+      if collisioncheck(collisionbox, hitbox)
         return true
       end
     end
@@ -59,19 +58,9 @@ class Map
     return @objects
   end
 
-  def drawhitbox (hitbox, camx, camy, type)
-    #color = Gosu::Color.new(0xffffffff)
-    x1 = hitbox[0]-camx
-    x2 = hitbox[0]+hitbox[2]-camx
-    y1 = hitbox[1]-camy
-    y2 = hitbox[1]+hitbox[3]-camy
-    #Gosu::draw_quad(x1, y1, color, x2, y1, color, x2, y2, color, x1, y2, color, 0)
-    gosu_draw_rect(x1, y1, x2, y2, 0xffffffff, 0)
-  end
-
   def draw (cx, cy)
     @map.each do |hbox|
-      drawhitbox(hbox.gethitbox, cx, cy, hbox.gettype)
+      hbox.draw(cx, cy)
     end
   end
 end
