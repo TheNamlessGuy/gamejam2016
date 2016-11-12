@@ -2,6 +2,7 @@ require "gosu"
 
 require "./map_helpers.rb"
 require "./hitbox.rb"
+require "./gosu_facade.rb"
 
 class Map
 
@@ -59,12 +60,13 @@ class Map
   end
 
   def drawhitbox (hitbox, camx, camy, type)
-    color = Gosu::Color.new(0xffffffff)
+    #color = Gosu::Color.new(0xffffffff)
     x1 = hitbox[0]-camx
     x2 = hitbox[0]+hitbox[2]-camx
     y1 = hitbox[1]-camy
     y2 = hitbox[1]+hitbox[3]-camy
-    Gosu::draw_quad(x1, y1, color, x2, y1, color, x2, y2, color, x1, y2, color, 0)
+    #Gosu::draw_quad(x1, y1, color, x2, y1, color, x2, y2, color, x1, y2, color, 0)
+    gosu_draw_rect(x1, y1, x2, y2, 0xffffffff, 0)
   end
 
   def draw (cx, cy)
