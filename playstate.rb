@@ -15,6 +15,8 @@ class PlayState
     @map = Map.new
     @map.loadmap("de_dust2.rb")
 
+    @chair = Gosu::Image.new "res/chair.png"
+
     @enemies = []
     #@enemies = @map.getobjectlist
     @enemies.push(MoneyGolem.new(500, 435, :e, 200))
@@ -53,6 +55,8 @@ class PlayState
 
   def draw
     @map.draw(@player.hitbox.get[0] - 368, 0)
+
+    @chair.draw(-@player.hitbox.get[0], 333, 1, 0.6, 0.6)
 
     @bullets.each do |bullet|
       bullet.draw(@player.hitbox.get[0] - 368)
