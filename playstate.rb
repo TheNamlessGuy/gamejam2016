@@ -114,7 +114,8 @@ class PlayState
       if not info.nil? and info.collided
         @bullets.delete(bullet)
       elsif bullet.hitbox.get[1] <= 0 or bullet.hitbox.get[1] >= 600 or
-          bullet.hitbox.get[0] >= 800 or bullet.hitbox.get[0] <= 0
+          bullet.hitbox.get[0] >= 800 + @player.hitbox.get[0] - 368 or
+          bullet.hitbox.get[0] <= 0 + @player.hitbox.get[0] - 368
         @bullets.delete(bullet)
       end
     end

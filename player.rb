@@ -5,6 +5,8 @@ class Player
   attr_accessor :hitbox, :xSpeed, :jumping, :yVel, :dead, :aimdir
   
   def initialize(x, y)
+    @origX = x
+    @origY = y
     @hitbox = HitBox.new(x, y, 64, 64)
     @xVel = 0.75
     @yVel = 0
@@ -148,5 +150,9 @@ class Player
     @toDraw = newAnim
     @animationIndex = 0
     @animationCooldown = 100
+  end
+
+  def reset
+    initialize(@origX, @origY)
   end
 end
