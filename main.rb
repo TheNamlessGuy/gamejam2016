@@ -1,6 +1,5 @@
 require 'gosu'
-require './player.rb'
-require './map.rb'
+require './playstate.rb'
 
 class GameWindow < Gosu::Window
   def initialize
@@ -8,10 +7,8 @@ class GameWindow < Gosu::Window
     self.caption = ""
     @lastFrameTime = 0
     
-    @player = Player.new(100, 400)
-    @bullets = []
-    @map = Map.new
-    @map.loadmap("de_dust2.rb")
+    @currentState = 0
+    @states = [PlayState.new]
   end
 
   def update
@@ -19,13 +16,11 @@ class GameWindow < Gosu::Window
     delta = ms - @lastFrameTime
     @lastFrameTime = ms
     
-    @player.update(@bullets, delta)
+    @states[@currentState].update(delta)
   end
 
   def draw
-    # Draw map, then player, then hud
-    @map.draw(0, 0)
-    @player.draw
+    @states[@currentState].draw
   end
 end
 
