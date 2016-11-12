@@ -10,8 +10,16 @@
 BACKSTORY:
 
 Anka e på semester. Ska precis ta av sig kläder, lämnar plånbok, plånbok explorderar, alla sprids ut, en e kvar, slår till anka och springer iväg. 
-
-
+ 
+CUTSCENES:
+ - INTRO:
+  - Dukke ska på semester på stranden, med flyg.
+  - Väl på stranden tar Dukke och lägger från sig plånbok för att ta av sig kläderna.
+  - Mitt i processen så börjar plånboken att mullra/skaka (jordbävning typ).
+  - Dukke skakar av rädsla.
+  - Plånbok exploderar och all peng sprids ut (THE HORROR // Dukke).
+  - En sedel går fram och slår till Dukke, för att sedan springa iväg.
+  - Dukke svimmar, och pengarna tar hans kläder. 
 
 STRUKTUR:
 - player class
@@ -22,3 +30,13 @@ STRUKTUR:
 - inventory class
 - cutscene class
 - mainmenu class
+
+
+
+
+TODO:
+- Sista bossen
+- Pengar faller
+- Pengar sprids när man skjuter folk
+- Gör klart banan
+- Sista cutscenen
