@@ -19,7 +19,7 @@ class GameWindow < Gosu::Window
                               Scene.new(Gosu::Image.new("res/cutscene_intro_3.png"), font, ["wallet   start   to   rattle", "", "fiercely"]),
                               Scene.new(Gosu::Image.new("res/cutscene_intro_4.png"), font, ["suddenly   wallet   explodes", "and   money   spreads", "out"]),
                               Scene.new(Gosu::Image.new("res/cutscene_intro_5.png"), font, ["a   money   punches   dukke", "hits   hard   and   dukke", "faints"]),
-                              Scene.new(nil, font, ["revenge", "much    time     now", "", "yes"])])
+                              Scene.new(Gosu::Image.new("res/cutscene_intro_6.png"), font, ["", "revenge", "much    time     now", "", "yes"])])
     #hehehe
 
     @states = [MainMenu.new(self), cutscene1, PlayState.new(self)]
