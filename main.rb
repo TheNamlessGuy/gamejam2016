@@ -11,7 +11,7 @@ class GameWindow < Gosu::Window
     @player = Player.new(100, 400)
     @bullets = []
     @map = Map.new
-    @map.loadmap("de_dust2")
+    @map.loadmap("de_dust2.rb")
   end
 
   def update

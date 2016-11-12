@@ -1,9 +1,10 @@
+require './hitbox.rb'
+
 class Player
-  attr_accessor :x, :y
+  attr_accessor :hitbox
   
-  def initialize(x, y)    
-    @x = x
-    @y = y
+  def initialize(x, y)
+    @hitbox = HitBox.new(x, y, 64, 64)
     @xVel = 0.75
     @yVel = 0
 
@@ -28,7 +29,7 @@ class Player
     # Movement
     if Gosu::button_down? Gosu::KbRight
       # Move right
-      @x += @xVel * delta
+      @hitbox.get[0] += @xVel * delta
       @dir = :e
       @aimdir = @dir
       
@@ -37,7 +38,7 @@ class Player
       end
     elsif Gosu::button_down? Gosu::KbLeft
       # Move left
-      @x -= @xVel * delta
+      @hitbox.get[0] -= @xVel * delta
       @dir = :w
       @aimdir = @dir
       
@@ -71,21 +72,28 @@ class Player
     end
 
     # Shoot
-    if Gosu::button_down? Gosu::KbX then
+    if Gosu::button_down? Gosu::KbX
       puts "shoot in direction: #{@aimdir.to_s}"
     end
     # Jump
-    if Gosu::button_down? Gosu::KbZ and not @jumping then
-      @jumping = true
-      @yVel = -2
+    if Gosu::button_down? Gosu::KbZ
+      if @jumping and @yVel > 0.3
+        # Float
+        @yVel = 0.3
+      elsif not @jumping
+        # Start jumping
+        @jumping = true
+        @yVel = -2
+      end
     end
 
     # Move in Y
     @yVel += 0.1
-    @y += @yVel * delta
-    if (@y >= 435)
+    @hitbox.get[1] += @yVel * delta
+    if (@hitbox.get[1] >= 435)
       @jumping = false
-      @y = 435
+      @hitbox.get[1] = 435
+      @yVel = 0
     end
 
     # Change animation frame
@@ -96,7 +104,7 @@ class Player
   end
 
   def draw
-    @toDraw[@animationIndex].draw(@x, @y, 1, 0.64, 0.64)
+    @toDraw[@animationIndex].draw(@hitbox.get[0], @hitbox.get[1], 1, 0.64, 0.64)
   end
 
   def changeAnim(newAnim)
