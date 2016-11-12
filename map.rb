@@ -16,6 +16,7 @@ class Map
     @map = []
     @objects = []
     @bg = Gosu::Image.new("res/back_beach.png")
+    @fg = Gosu::Image.new("res/front_beach.png")
     @width = -1
   end
 
@@ -25,6 +26,7 @@ class Map
     #TODO: Different types of maps
     mapfile = File.read("maps/" + mapname)
     eval mapfile
+    @map.push(MapGround.new(-10000, 10000, :GROUND))
   end
 
   # MAP LOADING DSL
@@ -67,9 +69,14 @@ class Map
 
   def draw (cx, cy)
     draw_bg
+    draw_fg(cx, cy)
     @map.each do |hbox|
-      hbox.draw(cx, cy)
+      hbox.draw(cx, cy) unless hbox.gettype == :GROUND
     end
+  end
+
+  def draw_fg(cx, cy)
+    @fg.draw(-cx, 0, 0)
   end
 
   def draw_bg
