@@ -1,5 +1,7 @@
 class MainMenu
   def initialize(window)
+    srand(1337)
+
     @title = ["Capitalism   Ruined   My", "Vacation!"]
     @alternatives = ["Play", "Quit"]
 
@@ -75,7 +77,9 @@ class MainMenu
       @font.draw a, 50, 50 + i * 50, 0, 1, 1, color
     end
 
-    @image.draw_rot 650, 600, 0, 45, 0.5, 0.5, 10, 10
+    randx = rand() * 30
+    randy = rand() * 30
+    @image.draw_rot 650 + randx, 600 + randy, 0, 45, 0.5, 0.5, 10, 10
 
     if @current_color == @colors.length - 1
       @current_color = 0
