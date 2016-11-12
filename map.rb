@@ -76,6 +76,8 @@ class Map
   end
 
   def draw_fg(cx, cy)
+    cx = cx % 1200
+    @fg.draw(1199-cx, 0, 0)
     @fg.draw(-cx, 0, 0)
   end
 
