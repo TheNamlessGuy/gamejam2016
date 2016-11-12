@@ -74,7 +74,7 @@ class Map
   end
 
   def draw (cx, cy)
-    draw_bg
+    draw_bg(cx, cy)
     draw_fg(cx, cy)
     @map.each do |hbox|
       hbox.draw(cx, cy) unless hbox.gettype == :GROUND
@@ -87,9 +87,8 @@ class Map
     @fg.draw(-cx, 0, 0)
   end
 
-  def draw_bg
+  def draw_bg(cx, cy)
     # TODO: Scroll
-    
-    @bg.draw(0, 0, 0)
+    @bg.draw(((cx + 368).to_f / @width.to_f) * -50.0, 0, 0)
   end
 end
