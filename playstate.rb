@@ -2,12 +2,13 @@ require './player.rb'
 require './map.rb'
 require './enemies/moneygolem.rb'
 require './hitbox.rb'
+require './inventory.rb'
 
 # TODO: Fucking remove this what are you doing stop
 require './gosu_facade.rb'
 
 class PlayState
-  def initialize
+  def initialize(window)
     @player = Player.new(368, 400)
     @bullets = []
     @map = Map.new
@@ -18,15 +19,23 @@ class PlayState
     @enemies.push(MoneyGolem.new(500, 435, :e, 200))
     
     @money = []
+
+    @inv = Inventory.new(window)
   end
 
   def update(delta)
-    @player.update(@bullets, delta)
+    shoot = @player.update(delta)
     if @player.dead
       puts "u ded sonny"
       @player.hitbox.get[0] = 100
       @player.hitbox.get[1] = 400
       @player.dead = false
+    end
+    if shoot
+      if @inv.bulletcount > 0
+        @bullets.push(Bullet.new(@player.hitbox.get[0] + 32, @player.hitbox.get[1] + 32, @player.aimdir))
+        @inv.bulletcount -= 1
+      end
     end
     
     @bullets.each do |bullet|
@@ -56,6 +65,8 @@ class PlayState
     end
     
     @player.draw
+
+    @inv.draw
   end
 
   #PRIVATE (SORTA)
@@ -111,7 +122,7 @@ class PlayState
     # Player picking up money
     @money.each do |cash|
       if hitboxcollisioncheck(cash.hitbox, @player.hitbox).collided
-        # TODO: Add score
+        @inv.money += cash.value
         @money.delete(cash)
       end
     end

@@ -9,7 +9,7 @@ class GameWindow < Gosu::Window
     @lastFrameTime = 0
     
     @currentState = 0
-    @states = [MainMenu.new(self), PlayState.new]
+    @states = [MainMenu.new(self), PlayState.new(self)]
   end
 
   def update

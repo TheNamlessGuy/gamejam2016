@@ -2,7 +2,7 @@ require './hitbox.rb'
 require './bullets.rb'
 
 class Player
-  attr_accessor :hitbox, :xSpeed, :jumping, :yVel, :dead
+  attr_accessor :hitbox, :xSpeed, :jumping, :yVel, :dead, :aimdir
   
   def initialize(x, y)
     @hitbox = HitBox.new(x, y, 64, 64)
@@ -34,9 +34,10 @@ class Player
     @dead = false
   end
 
-  def update(bullets, delta)
+  def update(delta)
     @aimdir = @dir
     @animationCooldown -= delta
+    shot = false
     
     # Movement
     if Gosu::button_down? Gosu::KbRight
@@ -86,7 +87,8 @@ class Player
 
     # Shoot
     if Gosu::button_down? Gosu::KbX and @shootCooldown <= 0 and @aimdir != :none
-      bullets.push(Bullet.new(@hitbox.get[0] + 32, @hitbox.get[1] + 32, @aimdir))
+      shot = true
+      #
       @shootCooldown = 250
     end
     # Jump
@@ -116,10 +118,12 @@ class Player
       @animationIndex = (@animationIndex + 1) % @toDraw.count
       @animationCooldown = 100
     end
+    
+    return shot
   end
 
   def draw
-    @toDraw[@animationIndex].draw(368, @hitbox.get[1], 1, 0.64, 0.64)#@hitbox.get[0], @hitbox.get[1], 1, 0.64, 0.64)
+    @toDraw[@animationIndex].draw(368, @hitbox.get[1], 1, 0.64, 0.64)
     draw_gun
   end
 
