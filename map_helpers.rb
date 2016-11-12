@@ -1,6 +1,7 @@
 require "gosu"
 
 require "./hitbox.rb"
+require "./map_helpers_objectcreators.rb"
 
 class MapHitBox
   def initialize (x, y, w, h, type)

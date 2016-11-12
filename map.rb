@@ -8,14 +8,17 @@ class Map
   #PUBLIC FUNCTIONS
   #bool loadmap(mapname)
   #collisiontype collisioncheck(collisionbox)
+  #void update(deltatime)
   #void draw(camx, camy)
 
   def initialize
     @map = []
+    @objects = []
   end
 
   def loadmap (mapname)
     @map = []
+    @objects = []
     #TODO: Different types of maps
     #@map.push(MapGround.new(0, 200, :WATER), MapGround.new(200, 800, :GROUND_SAND))
     mapfile = File.read("maps/" + mapname)
@@ -35,6 +38,11 @@ class Map
   def set_theme (theme)
     #INGENTING
   end
+
+  def create_object (x, y, type)
+    obj = objectcreator(x, y, type)
+    @objects.push(obj) unless obj == nil
+  end
   # ----------------------------------
 
   def collisioncheck (collisionbox)
@@ -44,6 +52,10 @@ class Map
       end
     end
     return false
+  end
+
+  def getobjectlist 
+    return @objects
   end
 
   def drawhitbox (hitbox, camx, camy, type)
