@@ -1,12 +1,18 @@
 require './player.rb'
 require './map.rb'
+require './enemies/moneygolem.rb'
+require './hitbox.rb'
 
 class PlayState
   def initialize
-    @player = Player.new(100, 400)
+    @player = Player.new(368, 400)
     @bullets = []
     @map = Map.new
     @map.loadmap("de_dust2.rb")
+
+    @enemies = []
+    #@enemies = @map.getobjectlist
+    @enemies.push(MoneyGolem.new(500, 435, :e, 200))
   end
 
   def update(delta)
@@ -17,19 +23,28 @@ class PlayState
       @player.hitbox.get[1] = 400
       @player.dead = false
     end
+    
     @bullets.each do |bullet|
       bullet.update(delta)
       if bullet.isGone
         @bullets.delete(bullet)
       end
     end
+    
+    @enemies.each do |enemy|
+      enemy.update(delta)
+    end
+    
     handlecollisions
   end
 
   def draw
-    @map.draw(0, 0)
+    @map.draw(@player.hitbox.get[0] - 368, 0)
     @bullets.each do |bullet|
       bullet.draw
+    end
+    @enemies.each do |enemy|
+      enemy.draw(@player.hitbox.get[0] - 368)
     end
     @player.draw
   end
@@ -57,6 +72,15 @@ class PlayState
     else
       @player.jumping = true
     end
+    
+    @enemies.each do |enemy|
+      @bullets.each do |bullet|
+        puts hitboxcollisioncheck(bullet.hitbox, enemy.hitbox).collided
+        if hitboxcollisioncheck(bullet.hitbox, enemy.hitbox).collided
+          @enemies.delete(enemy)
+          @bullets.delete(bullet)
+        end
+      end
+    end
   end
-  
 end

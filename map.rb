@@ -15,6 +15,8 @@ class Map
   def initialize
     @map = []
     @objects = []
+    @bg = Gosu::Image.new("res/back_beach.png")
+    @width = -1
   end
 
   def loadmap (mapname)
@@ -43,6 +45,10 @@ class Map
     obj = objectcreator(x, y, type)
     @objects.push(obj) unless obj == nil
   end
+
+  def set_width (w)
+    @width = w - 800
+  end
   # ----------------------------------
 
   def collisioncheck (collisionbox)
@@ -60,8 +66,15 @@ class Map
   end
 
   def draw (cx, cy)
+    draw_bg
     @map.each do |hbox|
       hbox.draw(cx, cy)
     end
+  end
+
+  def draw_bg
+    # TODO: Scroll
+    
+    @bg.draw(0, 0, 0)
   end
 end
