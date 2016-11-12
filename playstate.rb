@@ -42,12 +42,19 @@ class PlayState
 
   def draw
     @map.draw(@player.hitbox.get[0] - 368, 0)
+
     @bullets.each do |bullet|
       bullet.draw(@player.hitbox.get[0] - 368)
     end
+
     @enemies.each do |enemy|
       enemy.draw(@player.hitbox.get[0] - 368)
     end
+
+    @money.each do |cash|
+      cash.draw(@player.hitbox.get[0] - 368)
+    end
+    
     @player.draw
   end
 
@@ -98,6 +105,14 @@ class PlayState
       elsif bullet.hitbox.get[1] <= 0 or bullet.hitbox.get[1] >= 600 or
           bullet.hitbox.get[0] >= 800 or bullet.hitbox.get[0] <= 0
         @bullets.delete(bullet)
+      end
+    end
+    
+    # Player picking up money
+    @money.each do |cash|
+      if hitboxcollisioncheck(cash.hitbox, @player.hitbox).collided
+        # TODO: Add score
+        @money.delete(cash)
       end
     end
   end

@@ -1,4 +1,5 @@
 require './hitbox.rb'
+require './coin.rb'
 
 class MoneyGolem
   attr_accessor :hitbox
@@ -64,6 +65,6 @@ class MoneyGolem
   end
 
   def onDeath(money)
-
+    money.push(Coin.new(@hitbox.get[0], @hitbox.get[1] + 40))
   end
 end
