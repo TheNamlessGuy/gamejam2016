@@ -4,6 +4,7 @@ require './enemies/moneygolem.rb'
 require './enemies/billbird.rb'
 require './hitbox.rb'
 require './inventory.rb'
+require './particle.rb'
 
 # TODO: Fucking remove this what are you doing stop
 require './gosu_facade.rb'
@@ -23,6 +24,8 @@ class PlayState
     @enemies.push(BillBird.new(500, 300, :e, 50))
     
     @money = []
+
+    @particles = []
 
     @inv = Inventory.new(window)
   end
@@ -53,6 +56,13 @@ class PlayState
     @money.each do |moni|
       moni.update(delta)
     end
+
+    @particles.each do |p|
+      p.update(delta)
+      if p.dead?
+        @particles.delete(p)
+      end
+    end
     
     handlecollisions
   end
@@ -74,6 +84,10 @@ class PlayState
       cash.draw(@player.hitbox.get[0] - 368)
     end
     
+    @particles.each do |p|
+      p.draw(@player.hitbox.get[0] - 368)
+    end
+
     @player.draw
 
     @inv.draw
@@ -112,6 +126,9 @@ class PlayState
           enemy.onDeath(@money)
           @enemies.delete(enemy)
           @bullets.delete(bullet)
+          (0..10).each do |i|
+            @particles.push(Particle.new(enemy.hitbox.get[0]+32, enemy.hitbox.get[1]+32, 16, 16, "res/particle_coin"))
+          end
         end
       end
       
