@@ -15,12 +15,12 @@ class GameWindow < Gosu::Window
 
     #hehehe
     font = Gosu::Font.new self, "./ARCADECLASSIC.TTF", 50
-    cutscene1 = Cutscene.new([Scene.new(Gosu::Image.new("res/cutscene_intro_1.png"), font, ["", "", ""]),
-                              Scene.new(Gosu::Image.new("res/cutscene_intro_2.png"), font, ["cutscene", "intro", "2"]),
-                              Scene.new(Gosu::Image.new("res/cutscene_intro_3.png"), font, ["cutscene", "intro", "3"]),
-                              Scene.new(Gosu::Image.new("res/cutscene_intro_4.png"), font, ["cutscene", "intro", "4"]),
-                              Scene.new(Gosu::Image.new("res/cutscene_intro_5.png"), font, ["cutscene", "intro", "5"]),
-                              Scene.new(nil, font, ["cutscene", "intro", "6"])])
+    cutscene1 = Cutscene.new([Scene.new(Gosu::Image.new("res/cutscene_intro_1.png"), font, ["dukke   is   on   airplane", "to   bahamas"]),
+                              Scene.new(Gosu::Image.new("res/cutscene_intro_2.png"), font, ["dukke   is   sunbathing   on   ", "beach", "of   bahamas"]),
+                              Scene.new(Gosu::Image.new("res/cutscene_intro_3.png"), font, ["wallet   start   to   rattle", "", "fiercely"]),
+                              Scene.new(Gosu::Image.new("res/cutscene_intro_4.png"), font, ["suddenly   wallet   explodes", "and   money   spreads", "out"]),
+                              Scene.new(Gosu::Image.new("res/cutscene_intro_5.png"), font, ["a   money   punches   dukke", "hits   hard   and   dukke", "faints"]),
+                              Scene.new(nil, font, ["", "war", "war   never   changes", ""])])
     #hehehe
 
     @states = [MainMenu.new(self), cutscene1, PlayState.new]
