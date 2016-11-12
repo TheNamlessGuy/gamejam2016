@@ -36,7 +36,5 @@ STRUKTUR:
 
 TODO:
 - Sista bossen
-- Pengar faller
-- Pengar sprids när man skjuter folk
 - Gör klart banan
 - Sista cutscenen
