@@ -59,7 +59,7 @@ class PlayState
 
   def update(delta)
     shoot = @player.update(delta)
-    if @player.dead
+    if @player.dead and false
       puts "u ded sonny"
       playerdied
       @player.hitbox.get[0] = 100
@@ -98,10 +98,6 @@ class PlayState
 
     @chair.draw(-@player.hitbox.get[0], 333, 1, 0.6, 0.6)
 
-    @bullets.each do |bullet|
-      bullet.draw(@player.hitbox.get[0] - 368)
-    end
-
     @enemies.each do |enemy|
       enemy.draw(@player.hitbox.get[0] - 368)
     end
@@ -110,6 +106,10 @@ class PlayState
       @boss.activated = true
     end
     @boss.draw(@player.hitbox.get[0] - 368)
+
+    @bullets.each do |bullet|
+      bullet.draw(@player.hitbox.get[0] - 368)
+    end
 
     @money.each do |cash|
       cash.draw(@player.hitbox.get[0] - 368)
@@ -173,18 +173,15 @@ class PlayState
 
     # Boss stuff
     @map.collisioncheck(@boss.hitbox).each do |i|
-      case i.direction
-      when :e
-        
-      when :w
-        
-      when :s
+      if i.direction == :s
         @boss.hitbox.get[1] = i.y - (@boss.hitbox.get[3] + 5)
         @boss.landed
-      when :n
-        
       end
     end
+    if hitboxcollisioncheck(@boss.hitbox, @player.hitbox).collided
+      @player.dead = true
+    end
+    @boss.set_weakspot
    
     # Bullet hit ground or off screen
     @bullets.each do |bullet|
@@ -197,6 +194,11 @@ class PlayState
             bullet.hitbox.get[0] <= 0 + @player.hitbox.get[0] - 368
           @bullets.delete(bullet)
         end
+      end
+
+      if hitboxcollisioncheck(bullet.hitbox, @boss.weakspot).collided
+        @boss.damage
+        @bullets.delete(bullet)
       end
     end
 
