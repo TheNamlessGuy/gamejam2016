@@ -44,6 +44,12 @@ TODO:
 
 
 END GAME CUTSCEN:
+
+- dukke is collecting coins
+- of the fallen
+- but someone of approaching
+- ...
+
 - felicidades kompanjero
 - (clap (plånboksexplosion) (inga armar, bara händer))
 - You overcame capitalism
@@ -58,3 +64,15 @@ END GAME CUTSCEN:
 - (fade to black)
 - The end
 - ?
+
+
+
+
+INSKICK:
+
+TITEL: Capitalism Ruined My VACATION!
+DESCRIPTION: Dukke är på semester. Ska precis ta av sig kläder, lämnar plånbok, plånbok explorderar, alla pengar sprids ut, en peng är kvar, slår till Dukke och springer iväg. Dukke måste därför besegra kapitalismen, hjälp Dukke med detta. GUEST APPEARANCE: carlos marxisimo, tjyrgubben
+VILKA SOM HAR JOBAT PÅ DET: Markus Lewin, Max Bragazzi, Henrik Ingbrant Björs
+GRUPPNAMN: CoolIP
+SCREENSHOTS:
+LÄNK TILL GITHUB:
