@@ -26,11 +26,11 @@ class PlayState
     @initialenemies.push(BillBird.new(600, 300, :e, 50))
 
     prng = Random.new
-    for i in 1..20
+    for i in 1..70
       @initialenemies.push(MoneyGolem.new(600 + 100 * i, 435, :w, prng.rand(500)))
     end
 
-    for i in 1..20
+    for i in 1..70
       @initialenemies.push(BillBird.new(500 + 100 * i, 435, :w, prng.rand(500)))
     end
 
