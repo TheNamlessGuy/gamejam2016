@@ -34,7 +34,7 @@ class PlayState
       @initialenemies.push(BillBird.new(500 + 100 * i, 435, :w, prng.rand(500)))
     end
 
-    for i in 1..15
+    for i in 1..5
       @initialenemies.push(MoneyGolem.new(2800, 435, :e, 0))
     end
 
@@ -59,12 +59,13 @@ class PlayState
 
   def update(delta)
     shoot = @player.update(delta)
-    if @player.dead and false
+    if @player.dead
       puts "u ded sonny"
       playerdied
       @player.hitbox.get[0] = 100
       @player.hitbox.get[1] = 400
       @player.dead = false
+      return :dead
     end
     if shoot
       if @inv.bulletcount > 0

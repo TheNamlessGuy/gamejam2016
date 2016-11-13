@@ -6,7 +6,7 @@ class MainMenu
     @alternatives = ["Play", "Quit"]
 
     @choice = 0
-    @delay = 0
+    @delay = 500
 
     @current_color = 0
     @colors = [Gosu::Color.new(0xff00afdf),#::AQUA,

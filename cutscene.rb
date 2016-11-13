@@ -23,4 +23,11 @@ class Cutscene
   def draw
     @scenes[@current_scene].draw
   end
+
+  def reset
+    @current_scene = 0
+    @scenes.each do |s|
+      s.reset
+    end
+  end
 end

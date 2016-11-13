@@ -33,7 +33,9 @@ class GameWindow < Gosu::Window
                               Scene.new(nil, font, ["the     end", "the     end     or      !"])])
     #huehue
 
-    @states = [MainMenu.new(self), cutscene1, PlayState.new(self), cutscene2]
+    gameover = Cutscene.new([Scene.new(Gosu::Image.new("res/gameover.png"), font, ["enter     to     continue"])])
+
+    @states = [MainMenu.new(self), cutscene1, PlayState.new(self), cutscene2, gameover]
   end
 
   def update
@@ -47,11 +49,14 @@ class GameWindow < Gosu::Window
     when :quit
       close
     when :cutscene_end
+      @states[@currentState].reset
       if @currentState == 1
         @currentState = 2
       else
         @currentState = 0
       end
+    when :dead
+      @currentState = 4
     end
   end
 

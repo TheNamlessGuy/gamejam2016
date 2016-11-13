@@ -28,4 +28,9 @@ class Scene
 
     @font.draw @captions[@current_caption], 50, 500, 1, 1, 1, Gosu::Color::WHITE
   end
+  
+  def reset
+    @delay = 500
+    @current_caption = 0
+  end
 end
