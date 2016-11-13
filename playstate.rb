@@ -157,13 +157,7 @@ class PlayState
         if hitboxcollisioncheck(bullet.hitbox, enemy.hitbox).collided
           @enemies.delete(enemy)
           @bullets.delete(bullet)
-          (0..10).each do |i|
-            if [true, false].sample
-              @particles.push(Particle.new(enemy.hitbox.get[0] + 32, enemy.hitbox.get[1] + 32, 16, 16, "coin"))
-            else
-              @particles.push(Particle.new(enemy.hitbox.get[0] + 32, enemy.hitbox.get[1] + 32, 16, 16, "bill"))
-            end
-          end
+          spawn_particles(enemy.hitbox.get[0] + 32, enemy.hitbox.get[1] + 32)
         end
       end
       
@@ -199,13 +193,7 @@ class PlayState
 
       if hitboxcollisioncheck(bullet.hitbox, @boss.weakspot).collided
         if @boss.damage
-          (0..10).each do |i|
-            if [true, false].sample
-              @particles.push(Particle.new(@boss.hitbox.get[0] + 32, @boss.hitbox.get[1] + 32, 16, 16, "coin"))
-            else
-              @particles.push(Particle.new(@boss.hitbox.get[0] + 32, @boss.hitbox.get[1] + 32, 16, 16, "bill"))
-            end
-          end
+          spawn_particles(@boss.hitbox.get[0] + 150, @boss.hitbox.get[1])
         end
         @bullets.delete(bullet)
       end
@@ -231,6 +219,16 @@ class PlayState
       if info.length > 0
         @money.push(Coin.new(particle.hitbox.get[0], particle.hitbox.get[1], particle.type))
         @particles.delete(particle)
+      end
+    end
+  end
+
+  def spawn_particles(x, y)
+    (0..10).each do |i|
+      if [true, false].sample
+        @particles.push(Particle.new(x, y, 16, 16, "coin"))
+      else
+        @particles.push(Particle.new(x, y, 16, 16, "bill"))
       end
     end
   end
