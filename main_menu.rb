@@ -35,8 +35,6 @@ class MainMenu
         end
         
         @delay = 180
-      else
-        #@delay -= delta_time
       end
     elsif Gosu::button_down? Gosu::KbDown
       if @delay <= 0
@@ -48,8 +46,6 @@ class MainMenu
         end
 
         @delay = 180
-      else
-        #@delay -= delta_time
       end
     elsif Gosu::button_down? Gosu::KbReturn and @delay <= 0
       case @choice
@@ -58,8 +54,6 @@ class MainMenu
       when 1
         return :quit
       end
-    else
-      #@delay = 0
     end
   end
 
