@@ -1,14 +1,14 @@
 require './hitbox.rb'
 
 class BossBag
-  attr_accessor :hitbox, :yVel, :activated
+  attr_accessor :hitbox, :yVel, :activated, :jumping
 
   def initialize(x, y)
-    @hitbox = HitBox.new(x, y, 25, 25)
+    @hitbox = HitBox.new(x, y, 300, 400)
     @yVel = 0
     @activated = false
 
-    @jumpCooldown = 2000
+    @jumpCooldown = 3000
     @jumping = false
 
     @landTimer = 0
@@ -21,23 +21,26 @@ class BossBag
 
   def update(delta)
     if not @activated
-      #return
+      return
     end
     
     @landTimer -= delta
-    if @landTimer <= 0 and not @jumping
-      @toDraw = @@images[0]
-    end
-
     @jumpCooldown -= delta
     if @jumpCooldown <= 0 and not @jumping and @landTimer <= 0
-      @toDraw = @@images[2]
       @jumping = true
-      @yVel = -0.75
+      @yVel = -1.5
     end
 
-    #@yVel += 0.1
-    #@hitbox.get[1] += @yVel * delta
+    if @jumping
+      @toDraw = @@images[2]
+    elsif @landTimer <= 0 and not @jumping
+      @toDraw = @@images[0]
+    else
+      @toDraw = @@images[1]
+    end
+
+    @yVel += 0.1
+    @hitbox.get[1] += @yVel * delta
   end
 
   def draw(camX)
@@ -45,9 +48,26 @@ class BossBag
   end
 
   def landed
+    if not @activated or not @jumping or @landTimer > 0
+      return
+    end
+
     @jumping = false
-    @landTimer = 1000
+    @landTimer = 500
     @jumpCooldown = 1500
-    @toDraw = @@images[1]
+#    @toDraw = @@images[1]
+    @yVel = 0
+  end
+
+  def spawnShit(enemies)
+    if @landTimer > 0 or not @activated or @jumping
+      return
+    end
+
+    if [true, false].sample
+      enemies.push(MoneyGolem.new(@hitbox.get[0], @hitbox.get[1], :w, 1000))
+    else
+      enemies.push(BillBird.new(@hitbox.get[0], @hitbox.get[1], :w, 1000))
+    end
   end
 end
