@@ -22,7 +22,18 @@ class GameWindow < Gosu::Window
                               Scene.new(Gosu::Image.new("res/cutscene_intro_6.png"), font, ["", "revenge", "much    time     now", "", "yes"])])
     #hehehe
 
-    @states = [MainMenu.new(self), cutscene1, PlayState.new(self)]
+    #huehue
+    cutscene2 = Cutscene.new([Scene.new(Gosu::Image.new("res/cutscene_outro_1.png"), font, ["dukke   is   collecting    coins", "of   the    fallen"]),
+                              Scene.new(Gosu::Image.new("res/cutscene_outro_2.png"), font, ["but    someone     of     approaching", ""]),
+                              Scene.new(Gosu::Image.new("res/cutscene_outro_3.png"), font, ["felicidades     kompanjero"]),
+                              Scene.new(Gosu::Image.new("res/cutscene_outro_4.png"), font, [""]),
+                              Scene.new(Gosu::Image.new("res/cutscene_outro_5.png"), font, ["clap"]),
+                              Scene.new(Gosu::Image.new("res/cutscene_outro_4.png"), font, [""]),
+                              Scene.new(Gosu::Image.new("res/cutscene_outro_3.png"), font, ["you     overcame     capitalism", "for     now", "", "there     is    still    left    in", "world", "help    defeat    with    me", "you    have   many    learnings    left", "im     talking     it", "lets     us    leave    with    haste"]),
+                              Scene.new(nil, font, ["the     end", "the     end     or      !"])])
+    #huehue
+
+    @states = [MainMenu.new(self), cutscene1, PlayState.new(self), cutscene2]
   end
 
   def update
@@ -36,7 +47,11 @@ class GameWindow < Gosu::Window
     when :quit
       close
     when :cutscene_end
-      @currentState = 2
+      if @currentState == 1
+        @currentState = 2
+      else
+        @currentState = 0
+      end
     end
   end
 
