@@ -81,10 +81,12 @@ class BossBag
 
   def damage
     if @dmgCooldown > 0 or not @activated
-      return
+      return false
     end
     @health -= 1
     @dmgCooldown = 250
+    
+    return true
   end
 
   def dead?

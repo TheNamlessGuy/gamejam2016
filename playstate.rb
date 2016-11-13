@@ -46,7 +46,7 @@ class PlayState
 
     @inv = Inventory.new(window)
     
-    @boss = BossBag.new(1000, 100)
+    @boss = BossBag.new(9500, 100)
   end
 
   def playerdied
@@ -184,7 +184,7 @@ class PlayState
     end
     @boss.set_weakspot
    
-    # Bullet hit ground or off screen
+    # Bullet hit ground or off screen or boss stuff
     @bullets.each do |bullet|
       info = @map.collisioncheck(bullet.hitbox)
       info.each do |i|
@@ -198,7 +198,15 @@ class PlayState
       end
 
       if hitboxcollisioncheck(bullet.hitbox, @boss.weakspot).collided
-        @boss.damage
+        if @boss.damage
+          (0..10).each do |i|
+            if [true, false].sample
+              @particles.push(Particle.new(@boss.hitbox.get[0] + 32, @boss.hitbox.get[1] + 32, 16, 16, "coin"))
+            else
+              @particles.push(Particle.new(@boss.hitbox.get[0] + 32, @boss.hitbox.get[1] + 32, 16, 16, "bill"))
+            end
+          end
+        end
         @bullets.delete(bullet)
       end
     end
