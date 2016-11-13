@@ -2,6 +2,7 @@ require './player.rb'
 require './map.rb'
 require './enemies/moneygolem.rb'
 require './enemies/billbird.rb'
+require './enemies/bossbag.rb'
 require './hitbox.rb'
 require './inventory.rb'
 require './particle.rb'
@@ -18,7 +19,6 @@ class PlayState
     @chair = Gosu::Image.new "res/chair.png"
 
     @enemies = []
-    #@enemies = @map.getobjectlist
     @enemies.push(MoneyGolem.new(500, 435, :e, 200))
     @enemies.push(BillBird.new(500, 300, :e, 50))
     
@@ -27,6 +27,8 @@ class PlayState
     @particles = []
 
     @inv = Inventory.new(window)
+    
+    @boss = BossBag.new(1000, 100)
   end
 
   def update(delta)
@@ -51,6 +53,7 @@ class PlayState
     @enemies.each do |enemy|
       enemy.update(delta)
     end
+    @boss.update(delta)
     
     @money.each do |moni|
       moni.update(delta)
@@ -75,6 +78,7 @@ class PlayState
     @enemies.each do |enemy|
       enemy.draw(@player.hitbox.get[0] - 368)
     end
+    @boss.draw(@player.hitbox.get[0] - 368)
 
     @money.each do |cash|
       cash.draw(@player.hitbox.get[0] - 368)
