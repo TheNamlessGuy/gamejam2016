@@ -50,6 +50,10 @@ class PlayState
   end
 
   def playerdied
+    @player.hitbox.get[0] = 100
+    @player.hitbox.get[1] = 400
+    @player.dead = false
+    
     @enemies = @initialenemies.clone
     @money = []
     @particles = []
@@ -59,12 +63,8 @@ class PlayState
 
   def update(delta)
     shoot = @player.update(delta)
-    if @player.dead and false
-      puts "u ded sonny"
+    if @player.dead
       playerdied
-      @player.hitbox.get[0] = 100
-      @player.hitbox.get[1] = 400
-      @player.dead = false
     end
     if shoot
       if @inv.bulletcount > 0
@@ -102,7 +102,7 @@ class PlayState
       enemy.draw(@player.hitbox.get[0] - 368)
     end
 
-    if @boss.hitbox.get[0] + @boss.hitbox.get[2] <= 800 + @player.hitbox.get[0] - 368
+    if @boss.hitbox.get[0] + (@boss.hitbox.get[2] / 2) <= 800 + @player.hitbox.get[0] - 368
       @boss.activated = true
     end
     @boss.draw(@player.hitbox.get[0] - 368)
