@@ -2,6 +2,7 @@ require './player.rb'
 require './map.rb'
 require './enemies/moneygolem.rb'
 require './enemies/billbird.rb'
+require './enemies/bossbag.rb'
 require './hitbox.rb'
 require './inventory.rb'
 require './particle.rb'
@@ -44,6 +45,8 @@ class PlayState
     @particles = []
 
     @inv = Inventory.new(window)
+    
+    @boss = BossBag.new(1000, 100)
   end
 
   def playerdied
@@ -77,6 +80,7 @@ class PlayState
     @enemies.each do |enemy|
       enemy.update(delta)
     end
+    @boss.update(delta)
     
     @money.each do |moni|
       moni.update(delta)
@@ -101,6 +105,11 @@ class PlayState
     @enemies.each do |enemy|
       enemy.draw(@player.hitbox.get[0] - 368)
     end
+
+    if @boss.hitbox.get[0] + @boss.hitbox.get[2] <= 800 + @player.hitbox.get[0] - 368
+      @boss.activated = true
+    end
+    @boss.draw(@player.hitbox.get[0] - 368)
 
     @money.each do |cash|
       cash.draw(@player.hitbox.get[0] - 368)
@@ -159,6 +168,21 @@ class PlayState
       
       if hitboxcollisioncheck(enemy.hitbox, @player.hitbox).collided
         @player.dead = true
+      end
+    end
+
+    # Boss stuff
+    @map.collisioncheck(@boss.hitbox).each do |i|
+      case i.direction
+      when :e
+        
+      when :w
+        
+      when :s
+        @boss.hitbox.get[1] = i.y - (@boss.hitbox.get[3] + 5)
+        @boss.landed
+      when :n
+        
       end
     end
    
