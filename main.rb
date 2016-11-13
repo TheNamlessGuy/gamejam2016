@@ -45,6 +45,7 @@ class GameWindow < Gosu::Window
     
     case @states[@currentState].update(delta)
     when :play
+      @states[0].reset
       @currentState += 1
     when :quit
       close

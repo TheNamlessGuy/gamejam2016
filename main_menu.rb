@@ -24,9 +24,10 @@ class MainMenu
   end
 
   def update(delta_time)
+    @delay -= delta_time
     if Gosu::button_down? Gosu::KbUp
       if @delay <= 0
-
+        
         if @choice != 0
           @choice -= 1
         else
@@ -35,7 +36,7 @@ class MainMenu
         
         @delay = 180
       else
-        @delay -= delta_time
+        #@delay -= delta_time
       end
     elsif Gosu::button_down? Gosu::KbDown
       if @delay <= 0
@@ -48,9 +49,9 @@ class MainMenu
 
         @delay = 180
       else
-        @delay -= delta_time
+        #@delay -= delta_time
       end
-    elsif Gosu::button_down? Gosu::KbReturn
+    elsif Gosu::button_down? Gosu::KbReturn and @delay <= 0
       case @choice
       when 0
         return :play
@@ -58,7 +59,7 @@ class MainMenu
         return :quit
       end
     else
-      @delay = 0
+      #@delay = 0
     end
   end
 
@@ -87,4 +88,8 @@ class MainMenu
       @current_color += 1
     end
   end  
+
+  def reset
+    @delay = 500
+  end
 end

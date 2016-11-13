@@ -2,12 +2,14 @@ class Cutscene
   def initialize(scenes)
     @current_scene = 0
     @scenes = scenes
+
+    @delay = 1000
   end
 
   def update(delta_time)
     event = @scenes[@current_scene].update delta_time
     
-    if Gosu::button_down? Gosu::KbX
+    if Gosu::button_down? Gosu::KbX and @delay <= 0
       return :cutscene_end
     end
     
@@ -18,6 +20,8 @@ class Cutscene
         return :cutscene_end
       end
     end
+
+    @delay -= delta_time
   end
 
   def draw
@@ -29,5 +33,6 @@ class Cutscene
     @scenes.each do |s|
       s.reset
     end
+    @delay = 1000
   end
 end
