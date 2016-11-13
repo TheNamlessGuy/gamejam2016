@@ -15,25 +15,30 @@ class PlayState
     @bullets = []
     @map = Map.new
     @map.loadmap("de_dust2.rb")
+    @window = window
 
     @chair = Gosu::Image.new "res/chair.png"
-
+    
+    @initialenemies = []
     @enemies = []
-    @enemies.push(MoneyGolem.new(500, 435, :e, 200))
-    @enemies.push(BillBird.new(500, 300, :e, 50))
+    #@enemies = @map.getobjectlist
+    @initialenemies.push(MoneyGolem.new(500, 435, :e, 200))
+    @initialenemies.push(BillBird.new(600, 300, :e, 50))
 
     prng = Random.new
     for i in 1..20
-      @enemies.push(MoneyGolem.new(500 + 100 * i, 435, :w, prng.rand(500)))
+      @initialenemies.push(MoneyGolem.new(600 + 100 * i, 435, :w, prng.rand(500)))
     end
 
     for i in 1..20
-      @enemies.push(BillBird.new(200 + 100 * i, 435, :w, prng.rand(500)))
+      @initialenemies.push(BillBird.new(500 + 100 * i, 435, :w, prng.rand(500)))
     end
 
     for i in 1..15
-      @enemies.push(MoneyGolem.new(2800, 435, :e, 0))
+      @initialenemies.push(MoneyGolem.new(2800, 435, :e, 0))
     end
+
+    @enemies = @initialenemies.clone
     
     @money = []
 
@@ -44,10 +49,19 @@ class PlayState
     @boss = BossBag.new(1000, 100)
   end
 
+  def playerdied
+    @enemies = @initialenemies.clone
+    @money = []
+    @particles = []
+    @bullets = []
+    @inv = Inventory.new(@window)
+  end
+
   def update(delta)
     shoot = @player.update(delta)
     if @player.dead
       puts "u ded sonny"
+      playerdied
       @player.hitbox.get[0] = 100
       @player.hitbox.get[1] = 400
       @player.dead = false
