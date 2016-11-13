@@ -59,6 +59,7 @@ class PlayState
     @particles = []
     @bullets = []
     @inv = Inventory.new(@window)
+    @boss = BossBag.new(9500, 100)
   end
 
   def update(delta)
