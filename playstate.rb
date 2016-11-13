@@ -67,6 +67,11 @@ class PlayState
       playerdied
       return :dead
     end
+
+    if @boss.dead?
+      return :play
+    end
+
     if shoot
       if @inv.bulletcount > 0
         @bullets.push(Bullet.new(@player.hitbox.get[0] + 32, @player.hitbox.get[1] + 32, @player.aimdir))
