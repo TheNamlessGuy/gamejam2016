@@ -19,6 +19,8 @@ class BillBird
     @animationCooldown = 250
     @animationIndex = 0
 
+    @phasedisplacement = rand() * 20000
+
     if @dir == :e
       @toDraw = @@move_e
     else
@@ -41,7 +43,7 @@ class BillBird
       end
     end
     
-    @hitbox.get[1] = Math.sin(Gosu::milliseconds / 200.0) * 50
+    @hitbox.get[1] = (Math.sin(Gosu::milliseconds / 200.0) * 50) + ((Math.sin((Gosu::milliseconds + @phasedisplacement) / 4000.0) ** 40) * 400).abs
 
     @distRemaining -= (oldX - @hitbox.get[0]).abs
     if @distRemaining <= 0
