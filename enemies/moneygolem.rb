@@ -1,5 +1,4 @@
 require './hitbox.rb'
-require './coin.rb'
 
 class MoneyGolem
   attr_accessor :hitbox
@@ -62,9 +61,5 @@ class MoneyGolem
     @toDraw = newAnim
     @animationIndex = 0
     @animationCooldown = 250
-  end
-
-  def onDeath(money)
-    money.push(Coin.new(@hitbox.get[0] + 32, @hitbox.get[1] + 32))
   end
 end

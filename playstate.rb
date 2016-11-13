@@ -5,9 +5,8 @@ require './enemies/billbird.rb'
 require './hitbox.rb'
 require './inventory.rb'
 require './particle.rb'
-
-# TODO: Fucking remove this what are you doing stop
 require './gosu_facade.rb'
+require './coin.rb'
 
 class PlayState
   def initialize(window)
@@ -59,9 +58,6 @@ class PlayState
 
     @particles.each do |p|
       p.update(delta)
-      if p.dead?
-        @particles.delete(p)
-      end
     end
     
     handlecollisions
@@ -123,11 +119,14 @@ class PlayState
     @enemies.each do |enemy|
       @bullets.each do |bullet|
         if hitboxcollisioncheck(bullet.hitbox, enemy.hitbox).collided
-          enemy.onDeath(@money)
           @enemies.delete(enemy)
           @bullets.delete(bullet)
           (0..10).each do |i|
-            @particles.push(Particle.new(enemy.hitbox.get[0]+32, enemy.hitbox.get[1]+32, 16, 16, "res/particle_coin"))
+            if [true, false].sample
+              @particles.push(Particle.new(enemy.hitbox.get[0] + 32, enemy.hitbox.get[1] + 32, 16, 16, "coin"))
+            else
+              @particles.push(Particle.new(enemy.hitbox.get[0] + 32, enemy.hitbox.get[1] + 32, 16, 16, "bill"))
+            end
           end
         end
       end
@@ -138,7 +137,6 @@ class PlayState
     end
    
     # Bullet hit ground or off screen
-
     @bullets.each do |bullet|
       info = @map.collisioncheck(bullet.hitbox)
       info.each do |i|
@@ -157,6 +155,21 @@ class PlayState
       if hitboxcollisioncheck(cash.hitbox, @player.hitbox).collided
         @inv.money += cash.value
         @money.delete(cash)
+      else
+        info = @map.collisioncheck(cash.hitbox)
+        if info.length > 0
+          cash.yVel = 0
+          cash.hitbox.get[1] = info[0].y - cash.hitbox.get[3]
+        end
+      end
+    end
+
+    # Particles hitting ground
+    @particles.each do |particle|
+      info = @map.collisioncheck(particle.hitbox)
+      if info.length > 0
+        @money.push(Coin.new(particle.hitbox.get[0], particle.hitbox.get[1], particle.type))
+        @particles.delete(particle)
       end
     end
   end

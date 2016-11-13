@@ -1,5 +1,4 @@
 require './hitbox.rb'
-require './coin.rb'
 
 class BillBird
   attr_accessor :hitbox
@@ -65,9 +64,5 @@ class BillBird
     @toDraw = newAnim
     @animationIndex = 0
     @animationCooldown = 250
-  end
-
-  def onDeath(money)
-    money.push(Coin.new(@hitbox.get[0], @hitbox.get[1] + 40))
   end
 end
